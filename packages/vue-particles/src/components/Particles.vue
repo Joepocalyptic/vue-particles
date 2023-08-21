@@ -14,8 +14,8 @@ import type {
 const props = defineProps<{
   id: string
   init?: (engine: ParticlesEngine) => void | Promise<void>,
-  options: ParticleOptions,
-  url: string
+  options?: ParticleOptions,
+  url?: string
 }>()
 
 const emit = defineEmits<{
