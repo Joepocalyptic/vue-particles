@@ -1,24 +1,28 @@
 <template>
   <div>
-      <NuxtWelcome :style="{ position: 'fixed', inset: 0, filter: 'opacity(80%)', zIndex: 999 }" />
+    <Tutorial :style="{ opacity: 0.4, zIndex: 999 }" />
+    <ClientOnly>
       <ParticlesComponent
         id="tsparticles"
-        :init="particlesInit"
         :options="options"
-        @load="particlesLoaded"
+        :init="particlesInit"
+        @load="onLoad"
       />
+    </ClientOnly>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ParticlesComponent } from '@tsparticles/vue'
-import { loadFull } from 'tsparticles'
+import { ParticlesComponent } from '@tsparticles/vue/dist'
 
 const particlesInit = async (engine: any) => {
-  await loadFull(engine)
+  if(process.client) {
+    const { loadFull } = await import('tsparticles')
+    await loadFull(engine)
+  }
 }
 
-const particlesLoaded = () => {
+const onLoad = () => {
   console.log('Particles loaded')
 }
 
